@@ -1,0 +1,30 @@
+var Nightmare = require('nightmare');
+var vo = require('vo');
+var uniq = function(a) {
+    return a.sort().filter(function(item, pos, ary) {
+        return !pos || item != ary[pos - 1];
+    })
+}
+vo(function* () {
+  var nightmare = Nightmare({ show: true });
+  var link = yield nightmare
+    .goto('http://yahoo.com')
+    .evaluate(function () {
+      //return document.getElementsByTagName('a')[0].href;
+      var i = document.getElementsByTagName('a');
+      var j = 0;
+      var ah = [];
+      while (j < i.length) {
+        var fullURL = i[j].href;
+        ah.push(fullURL);
+        j++;
+      }
+      return ah;
+    });
+  yield nightmare.end();
+  return link;
+})(function (err, result) {
+  if (err) return console.log(err);
+  //console.log(result);
+  console.log(uniq(result));
+});
