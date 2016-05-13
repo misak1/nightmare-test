@@ -6,9 +6,14 @@ var uniq = function(a) {
     })
 }
 vo(function* () {
-  var nightmare = Nightmare({ show: true });
+  var nightmare = Nightmare({openDevTools:true, show: true });
+  //var nightmare = Nightmare({ show: false });
   var link = yield nightmare
+    .viewport(1600, 900)
+    .useragent('hoge3')
     .goto('http://yahoo.com')
+    //.goto('http://localhost:49199')
+    //.authentication('user', 'passwd') // use basic auth 
     .evaluate(function () {
       //return document.getElementsByTagName('a')[0].href;
       var i = document.getElementsByTagName('a');
