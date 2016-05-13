@@ -39,22 +39,14 @@ var uniq = function(a) {
 var i = 0;
 for(u in urls) {
   var url = urls[u];
-  //var filename = '/tmp/tmp' + i + '.png';
   var filename = './tmp/' + i + '.png';
   fs.appendFile('/tmp/urls.txt',url+'\n');
   //new Nightmare()
-  //new Nightmare({openDevTools:true, show: true })
-  var _nightmare = new Nightmare({openDevTools:false, show: true })
+  var nightmare = new Nightmare({openDevTools:false, show: false })
     .viewport(1600, 900)
     .useragent("Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.111 Safari/537.36")
-    //.goto('https://login.newrelic.com/login')
-    //.type('#login_email', 'foobar@sample.com')
-    //.type('#login_password', 'foobarpass')
-    //.click('#login_submit')
-    //.wait()
-    //.goto("https://rpm.newrelic.com/set_time_window?tw%5Bdur%5D=last_3_days")
     .goto(url)
-    .wait(1000)
+    //.wait(1000)
     .evaluate(function () {
       //return document.getElementsByTagName('a')[0].href;
       var i = document.getElementsByTagName('a');
@@ -65,16 +57,13 @@ for(u in urls) {
         ah.push(fullURL);
         j++;
       }
-      //console.log(ah);
       return ah;
     })
-    //.wait(1000)
-    //.screenshot(filename)
-    .run(function (err, nightmare) {
+    .run(function (err, result) {
       if (err) return console.log(err);
-      console.log(nightmare);
+      console.log(result);
       console.log('Done!');
     });
-  _nightmare.end();
+  nightmare.end();
   i++;
 }
